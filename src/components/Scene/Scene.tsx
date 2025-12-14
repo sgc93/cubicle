@@ -1,6 +1,6 @@
 const Scene = () => {
   return (
-    <div className="flex-1 flex h-[94dvh]">
+    <div className="flex-1 flex">
       <div
         id="viewport"
         className="flex-1 min-w-0 w-full h-full bg-n-600"
