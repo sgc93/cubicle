@@ -1,6 +1,6 @@
 const SecondarySidebar = () => {
   return (
-    <div className="max-md:fixed max-md:top-13 max-md:right-1 max-md:z-40 flex flex-col gap-1.5 bg-n-900 max-md:rounded-sm md:bg-n-600/60 p-1.5 overflow-hidden transition-all duration-500">
+    <div className=" flex flex-col gap-1.5 bg-n-600/60 p-1.5 overflow-hidden transition-all duration-500">
       <div className="min-h-1/4 max-h-1/3 bg-n-800 rounded-md rounded-b-none flex flex-col gap-2 py-1.5 cubic-scroll">
         <button className="group flex items-center gap-1.5 bg-n-700 px-2 py-1 cursor-pointer">
           <svg
