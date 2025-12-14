@@ -1,12 +1,10 @@
+import SceneCanvas from "./SceneCanvas";
 import SceneMenu from "./SceneMenu";
 
 const Scene = () => {
   return (
     <div className="relative flex-1 flex">
-      <div
-        id="viewport"
-        className="flex-1 min-w-0 w-full h-full bg-n-600"
-      ></div>
+      <SceneCanvas />
       <SceneMenu />
     </div>
   );
