@@ -1,3 +1,5 @@
+"use client";
+
 import SceneCanvas from "./SceneCanvas";
 import SceneMenu from "./SceneMenu";
 
