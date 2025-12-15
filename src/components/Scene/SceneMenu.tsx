@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FaPlane, FaShapes } from "react-icons/fa";
+import { FaShapes } from "react-icons/fa";
 import Tooltip from "../ui/Tooltip";
 import { BsTranslate } from "react-icons/bs";
 import { FaRotate } from "react-icons/fa6";
@@ -9,7 +9,7 @@ import { HiScale } from "react-icons/hi";
 import { BiCube, BiCylinder, BiExport, BiImport } from "react-icons/bi";
 import { PiSphere, PiTextT } from "react-icons/pi";
 import { TbCone } from "react-icons/tb";
-import { LuTorus } from "react-icons/lu";
+import { LuPlane, LuTorus } from "react-icons/lu";
 
 const SceneMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +73,7 @@ const SceneMenu = () => {
           </div>
           {[
             { name: "mesh", icon: <BiCube />, shortCut: "Shift + A + C" },
-            { name: "plane", icon: <FaPlane />, shortCut: "Shift + A + P" },
+            { name: "plane", icon: <LuPlane />, shortCut: "Shift + A + P" },
             { name: "sphere", icon: <PiSphere />, shortCut: "Shift + A + S" },
             {
               name: "cylinder",
@@ -86,7 +86,7 @@ const SceneMenu = () => {
           ].map((shape, index) => (
             <button
               key={index}
-              className="add-object-btn group flex items-center gap-2 p-1.5 text-n-100 font-semibold bg-n-300/30 rounded-md transition-all duration-300 hover:bg-accent-1 hover:text-n-50"
+              className="group flex items-center gap-2 p-1.5 text-n-100 font-semibold bg-n-300/30 rounded-md transition-all duration-300 hover:bg-accent-1 hover:text-n-50 cursor-pointer"
             >
               {shape.icon}
               <div className="flex-1 flex items-center gap-2 justify-between">
