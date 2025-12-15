@@ -3,16 +3,17 @@
 import { useState } from "react";
 import { FaShapes } from "react-icons/fa";
 import Tooltip from "../ui/Tooltip";
-import { BsTranslate } from "react-icons/bs";
-import { FaRotate } from "react-icons/fa6";
-import { HiScale } from "react-icons/hi";
 import { BiCube, BiCylinder, BiExport, BiImport } from "react-icons/bi";
 import { PiSphere, PiTextT } from "react-icons/pi";
-import { TbCone } from "react-icons/tb";
+import { TbCone, TbLetterG, TbLetterR, TbLetterS } from "react-icons/tb";
 import { LuPlane, LuTorus } from "react-icons/lu";
+import { useSceneStore } from "@/stores/store";
+import { FcCursor } from "react-icons/fc";
+import { ObjectModeType } from "@/types/SceneTypes";
 
 const SceneMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { updateMode, mode } = useSceneStore();
 
   return (
     <>
@@ -27,24 +28,44 @@ const SceneMenu = () => {
           <Tooltip text="Add Shapes" shortCut="Press A" dxr="top-center" />
         </div>
         <div className="flex gap-1.5 border-l border-n-400/50 pl-1.5">
-          <div className="relative group flex">
-            <button className="transition-all p-1.5 rounded-md duration-300 group-hover:text-n-50 group-hover:bg-accent-1 cursor-pointer">
-              <BsTranslate />
-            </button>
-            <Tooltip text="Translate" shortCut="Press G" dxr="top-center" />
-          </div>
-          <div className="relative group flex">
-            <button className="transition-all p-1.5 rounded-md duration-300 group-hover:text-n-50 group-hover:bg-accent-1 cursor-pointer">
-              <FaRotate />
-            </button>
-            <Tooltip text="Rotate" shortCut="Press R" dxr="top-center" />
-          </div>
-          <div className="relative group flex">
-            <button className="transition-all p-1.5 rounded-md duration-300 group-hover:text-n-50 group-hover:bg-accent-1 cursor-pointer">
-              <HiScale />
-            </button>
-            <Tooltip text="Scale" shortCut="Press S" dxr="top-center" />
-          </div>
+          {[
+            {
+              name: "Move",
+              m: "translate",
+              shortCut: "Press G",
+              icon: <TbLetterG />
+            },
+            {
+              name: "Rotate",
+              m: "rotate",
+              shortCut: "Press R",
+              icon: <TbLetterR />
+            },
+            {
+              name: "Scale",
+              m: "scale",
+              shortCut: "Press S",
+              icon: <TbLetterS />
+            }
+          ].map((btn, index) => (
+            <div key={index} className="relative group flex">
+              <button
+                className={`${
+                  mode === btn.m
+                    ? "text-n-50 bg-accent-1"
+                    : "group-hover:text-n-50 group-hover:bg-accent-1"
+                } transition-all p-1.5 rounded-md duration-300 cursor-pointer`}
+                onClick={() => updateMode(btn.m as ObjectModeType)}
+              >
+                {btn.icon}
+              </button>
+              <Tooltip
+                text={btn.name}
+                shortCut={btn.shortCut}
+                dxr="top-center"
+              />
+            </div>
+          ))}
         </div>
         <div className="flex gap-1.5 border-l border-n-400/50 pl-1.5">
           <div className="relative group flex">
