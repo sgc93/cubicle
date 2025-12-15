@@ -1,5 +1,3 @@
-import * as THREE from "three";
-
 export type ObjectType =
   | "box"
   | "mesh"
@@ -12,22 +10,22 @@ export type ObjectType =
 
 export type ObjectModeType = "translate" | "rotate" | "scale";
 
-export type SceneObject = {
-  id: string;
-  type: string;
-  name: string;
-  mesh: THREE.Mesh;
-  mode: ObjectModeType;
-  text?: string;
+export type SceneObjectMaterial = {
+  color: string;
+  roughness: number;
+  metalness: number;
 };
 
-export type ExportedObject = {
+export type SceneObject = {
   id: string;
   type: ObjectType;
   name: string;
   text?: string;
-  mode: ObjectModeType;
+  args: number[];
   position: { x: number; y: number; z: number };
   rotation: { x: number; y: number; z: number };
   scale: { x: number; y: number; z: number };
+  material?: SceneObjectMaterial;
 };
+
+export type SceneData = SceneObject[];
