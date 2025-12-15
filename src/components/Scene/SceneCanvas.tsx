@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import * as THREE from "three";
 
 import { SceneObject } from "@/types/SceneSchema";
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 const InteractiveSceneObject = ({ object }: { object: SceneObject }) => {
   const { setSelectedObjectId, mode } = useSceneStore();
@@ -94,6 +94,15 @@ const SceneCanvas = () => {
       {sceneObjects.map((object) => (
         <InteractiveSceneObject key={object.id} object={object} />
       ))}
+
+      <mesh
+        position={[0, 0, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        onClick={() => setSelectedObjectId(null)}
+      >
+        <planeGeometry args={[100, 100]} />
+        <meshBasicMaterial transparent opacity={0} visible={true} side={2} />
+      </mesh>
       <Grid
         args={[100, 100]}
         cellSize={1}
