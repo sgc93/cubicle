@@ -6,24 +6,29 @@ import {
   TransformControls
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useEffect } from "react";
 import * as THREE from "three";
-
-import { SceneObject } from "@/types/SceneSchema";
 import { useRef } from "react";
+import { SceneObject } from "@/types/SceneTypes";
 
 const InteractiveSceneObject = ({ object }: { object: SceneObject }) => {
-  const { setSelectedObjectId, mode } = useSceneStore();
+  const { setSelectedObjectId, mode, updateMesh } = useSceneStore();
   const isSelected = useSceneStore(
     (state) => state.selectedObjectId === object.id
   );
 
   const meshRef = useRef<THREE.Mesh>(null!);
 
-  // const onMouseUp = () => {
-  //     // Crucial: TODO Push the final state to the history stack ONLY after the drag ends
-  //     pushHistory();
-  // };
+  const onMouseUp = () => {
+    if (meshRef.current) {
+      updateMesh(object.id, meshRef.current);
+    }
+  };
+
+  const selectObj = () => {
+    if (!isSelected) {
+      setSelectedObjectId(object.id);
+    }
+  };
 
   const MeshComponent = (
     <mesh
@@ -35,7 +40,7 @@ const InteractiveSceneObject = ({ object }: { object: SceneObject }) => {
       scale={[object.scale.x, object.scale.y, object.scale.z]}
       onClick={(e) => {
         e.stopPropagation();
-        setSelectedObjectId(object.id);
+        selectObj();
       }}
     >
       <boxGeometry
@@ -53,7 +58,7 @@ const InteractiveSceneObject = ({ object }: { object: SceneObject }) => {
 
   if (isSelected) {
     return (
-      <TransformControls object={meshRef} mode={mode}>
+      <TransformControls object={meshRef} mode={mode} onMouseUp={onMouseUp}>
         {MeshComponent}
       </TransformControls>
     );
@@ -63,14 +68,12 @@ const InteractiveSceneObject = ({ object }: { object: SceneObject }) => {
 };
 
 const SceneCanvas = () => {
-  const { sceneObjects, setSelectedObjectId } = useSceneStore();
-
-  useEffect(() => {}, []);
+  const { sceneObjects, setSelectedObjectId, selectedObjectId } =
+    useSceneStore();
 
   const setupAxes = (helper: THREE.Object3D) => {
     if (helper instanceof THREE.AxesHelper) {
       const positions = helper.geometry.attributes.position;
-
       positions.setXYZ(2, 0, 0, 0);
       positions.setXYZ(3, 0, 0, 0);
       positions.needsUpdate = true;
@@ -91,6 +94,7 @@ const SceneCanvas = () => {
       <OrbitControls makeDefault enableDamping dampingFactor={0.05} />
       <axesHelper ref={setupAxes} args={[100]} />
       <axesHelper ref={setupAxes} args={[100]} rotation={[0, Math.PI, 0]} />
+
       {sceneObjects.map((object) => (
         <InteractiveSceneObject key={object.id} object={object} />
       ))}
@@ -98,7 +102,12 @@ const SceneCanvas = () => {
       <mesh
         position={[0, 0, 0]}
         rotation={[-Math.PI / 2, 0, 0]}
-        onClick={() => setSelectedObjectId(null)}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (selectedObjectId) {
+            setSelectedObjectId(null);
+          }
+        }}
       >
         <planeGeometry args={[100, 100]} />
         <meshBasicMaterial transparent opacity={0} visible={true} side={2} />
