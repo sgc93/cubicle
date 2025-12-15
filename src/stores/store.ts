@@ -14,6 +14,7 @@ interface SceneState {
   updateObjectProperties: (id: string, updates: Partial<SceneObject>) => void;
   setSelectedObjectId: (id: string | null) => void;
   loadInitialScene: (data: SceneData) => void;
+  updateMode: (mode: ObjectModeType) => void;
   pushHistory: () => void;
   undo: () => void;
   redo: () => void;
@@ -86,6 +87,9 @@ export const useSceneStore = create<SceneState>((set, get) => ({
 
   setSelectedObjectId: (id) => set({ selectedObjectId: id }),
 
+  updateMode(mode) {
+    set({ mode });
+  },
   pushHistory: () => {
     const currentScene = get().sceneObjects;
     set((state) => {
