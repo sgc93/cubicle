@@ -5,10 +5,15 @@ import { FaShapes } from "react-icons/fa";
 import Tooltip from "../ui/Tooltip";
 import { BiCube, BiCylinder, BiExport, BiImport } from "react-icons/bi";
 import { PiSphere, PiTextT } from "react-icons/pi";
-import { TbCone, TbLetterG, TbLetterR, TbLetterS } from "react-icons/tb";
-import { LuPlane, LuTorus } from "react-icons/lu";
+import { TbCone} from "react-icons/tb";
+import {
+  LuImageUpscale,
+  LuMove,
+  LuPlane,
+  LuRotate3D,
+  LuTorus
+} from "react-icons/lu";
 import { useSceneStore } from "@/stores/store";
-import { FcCursor } from "react-icons/fc";
 import { ObjectModeType } from "@/types/SceneTypes";
 
 const SceneMenu = () => {
@@ -33,19 +38,19 @@ const SceneMenu = () => {
               name: "Move",
               m: "translate",
               shortCut: "Press G",
-              icon: <TbLetterG />
+              icon: <LuMove />
             },
             {
               name: "Rotate",
               m: "rotate",
               shortCut: "Press R",
-              icon: <TbLetterR />
+              icon: <LuRotate3D />
             },
             {
               name: "Scale",
               m: "scale",
               shortCut: "Press S",
-              icon: <TbLetterS />
+              icon: <LuImageUpscale />
             }
           ].map((btn, index) => (
             <div key={index} className="relative group flex">
