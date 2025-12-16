@@ -1,6 +1,15 @@
-import { ObjectModeType, SceneData, SceneObject } from "@/types/SceneTypes";
+import {
+  ObjectModeType,
+  ObjectType,
+  SceneData,
+  SceneObject
+} from "@/types/SceneTypes";
 import { create } from "zustand";
 import * as THREE from "three";
+import {
+  createSerializableObject,
+  getNextObjectNameCount
+} from "@/utils/objectUtils";
 
 interface SceneState {
   sceneObjects: SceneObject[];
@@ -10,7 +19,13 @@ interface SceneState {
   historyIndex: number;
 
   addObject: (obj: SceneObject) => void;
+  createAndAddObject: (type: ObjectType, initialText?: string) => void;
   updateMesh: (id: string, mesh: THREE.Mesh) => void;
+  updateVertex: (
+    objId: string,
+    vertexIndex: number,
+    updatedPos: THREE.Vector3
+  ) => void;
   updateObjectProperties: (id: string, updates: Partial<SceneObject>) => void;
   setSelectedObjectId: (id: string | null) => void;
   loadInitialScene: (data: SceneData) => void;
@@ -42,6 +57,18 @@ export const useSceneStore = create<SceneState>((set, get) => ({
     get().pushHistory();
   },
 
+  createAndAddObject: (type, initialText = "") => {
+    const nameCount = getNextObjectNameCount(type);
+    const newObject = createSerializableObject(type, nameCount, initialText);
+
+    set((state) => ({
+      sceneObjects: [...state.sceneObjects, newObject],
+      selectedObjectId: newObject.id
+    }));
+
+    get().pushHistory();
+  },
+
   updateMesh: (id, mesh) => {
     const updates = {
       position: { x: mesh.position.x, y: mesh.position.y, z: mesh.position.z },
@@ -63,6 +90,33 @@ export const useSceneStore = create<SceneState>((set, get) => ({
     }));
 
     get().pushHistory();
+  },
+
+  updateVertex(objId, vertexIndex, updatedPos) {
+    set((state) => ({
+      sceneObjects: state.sceneObjects.map((obj) => {
+        if (obj.id !== objId) return obj;
+
+        const currentPositions = obj.geometryData?.position || [];
+
+        if (currentPositions.length === 0) return obj;
+
+        const newPositions = [...updatedPos];
+        const arrayIndex = vertexIndex * 3;
+
+        newPositions[arrayIndex + 0] = updatedPos.x;
+        newPositions[arrayIndex + 1] = updatedPos.y;
+        newPositions[arrayIndex + 2] = updatedPos.z;
+
+        return {
+          ...obj,
+          geometryData: {
+            ...obj.geometryData,
+            position: newPositions
+          }
+        };
+      })
+    }));
   },
 
   updateObjectProperties(id, updates) {
