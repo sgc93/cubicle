@@ -16,6 +16,12 @@ export type SceneObjectMaterial = {
   metalness: number;
 };
 
+export type GeometryData = {
+  position: number[];
+  normal?: number[];
+  uv?: number[];
+};
+
 export type SceneObject = {
   id: string;
   type: ObjectType;
@@ -26,6 +32,7 @@ export type SceneObject = {
   rotation: { x: number; y: number; z: number };
   scale: { x: number; y: number; z: number };
   material?: SceneObjectMaterial;
+  geometryData?: GeometryData;
 };
 
 export type SceneData = SceneObject[];
