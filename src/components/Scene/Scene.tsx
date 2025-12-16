@@ -17,7 +17,7 @@ const Scene = () => {
   }, [sceneObjects.length, loadInitialScene]);
 
   return (
-    <div className="relative flex-1 flex">
+    <div className="relative flex-1 min-w-0 flex">
       <SceneCanvas />
       <SceneMenu />
     </div>
