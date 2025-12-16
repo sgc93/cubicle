@@ -5,7 +5,7 @@ import { FaShapes } from "react-icons/fa";
 import Tooltip from "../ui/Tooltip";
 import { BiCube, BiCylinder, BiExport, BiImport } from "react-icons/bi";
 import { PiSphere, PiTextT } from "react-icons/pi";
-import { TbCone} from "react-icons/tb";
+import { TbCone } from "react-icons/tb";
 import {
   LuImageUpscale,
   LuMove,
@@ -14,11 +14,11 @@ import {
   LuTorus
 } from "react-icons/lu";
 import { useSceneStore } from "@/stores/store";
-import { ObjectModeType } from "@/types/SceneTypes";
+import { ObjectModeType, ObjectType } from "@/types/SceneTypes";
 
 const SceneMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { updateMode, mode } = useSceneStore();
+  const { updateMode, mode, createAndAddObject } = useSceneStore();
 
   return (
     <>
@@ -113,6 +113,10 @@ const SceneMenu = () => {
             <button
               key={index}
               className="group flex items-center gap-2 p-1.5 text-n-100 font-semibold bg-n-300/30 rounded-md transition-all duration-300 hover:bg-accent-1 hover:text-n-50 cursor-pointer"
+              onClick={() => {
+                createAndAddObject(shape.name as ObjectType);
+                setIsOpen(false);
+              }}
             >
               {shape.icon}
               <div className="flex-1 flex items-center gap-2 justify-between">
