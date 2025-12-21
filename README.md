@@ -1,6 +1,9 @@
 # CUBICLE : 3D Scene Editor
 
-A lightweight web-based 3D scene editor built with Three.js for interactive object manipulation and scene management.
+A lightweight web-based 3D scene editor built with Next.js powered Three.js for interactive object manipulation and scene management.
+
+[Also built with Vanilla TypeScript](https://github.com/sgc93/3d-editor-vanilla)
+
 <img width="1366" height="768" alt="cubicle" src="https://github.com/user-attachments/assets/f445874a-a565-4d25-9516-e3bf5949f2db" />
 
 ## Features
